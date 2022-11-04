@@ -2,7 +2,22 @@
 Clases para manejo de coches de combustión y eléctricos.
 Ejemplo para uso de clase y herencia.
 '''
-
+# Clase base
+import os, shelve
+class Battery:
+    """A battery for an electric car."""
+    def __init__(self, size=75):
+        """Initialize battery attributes."""
+        # Capacity in kWh, charge level in %.
+        self.size = size
+        self.charge_level = 0
+    def get_range(self):
+        """Return the battery's range."""
+        if self.size == 75:
+            return 260
+        elif self.size == 100:
+            return 315
+  
 class Car:
     """A simple attempt to model a car."""
     def __init__(self, make, model, year, type):
@@ -29,32 +44,30 @@ def leer(ruta):
     '''
     Lee un archivo y devuelve su contenido
     '''
-    if os.path.exists(ruta):
-        f = open(ruta) # opcional 'r'
-        texto = f.read()
-        f.close()
-        return texto
-    else:
-        print(f'No existe el archivo {ruta}')
-        return None
+    f = shelve.open(ruta)
+    coches = []
+    for coche in f:
+        coches.append(coches)
+    f.close()
+    return coches
+
+   
 '''
 
 
 
 class ElectricCar(Car):
 '''
-def escribir(ruta, texto):
+def escribir(ruta, coches):
     '''
     Escribe el texto en el archivo de la ruta.
     Si existe el archivo, aÃ±ade el contenido al final
     del mismo.
     No devuelve nada
     '''
-    if os.path.exists(ruta):
-        f = open(ruta, 'a')  # f -> objeto file
-    else:
-        f = open(ruta, 'w')
-    f.write(texto)
+    f = shelve.open(ruta)
+    for coche in coches:
+        f[str(coche)] = coche
     f.close()
 
 class ElectricCar(Car):
@@ -79,9 +92,15 @@ if __name__ == '__main__':
     x.add(car3)
     car4 = Combustive('audi', 'q5', 2020)
     x.add(car4)   
-    for car in x:    
-        print(car.name, car.model, car.year, car.type)
-        e=f'{car.name} {car.model} {car.year} {car.type}'
-        escribir('coches.txt', e)
-        leer
-        print(leer('coches.txt'))
+    car5 = Combustive('audi', 'q5', 2020)
+    x.add(car5)
+    car6 = Combustive('audi', 'q5', 2020)
+    x.add(car6)
+    
+    """"
+    escribe el archivo.dat con los coches de la lista coches y lee el archivo"""
+
+    escribir('coches.dat', x)
+    coches = leer('coches.dat')
+    for coche in coches:
+        print(coche)
