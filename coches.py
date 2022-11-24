@@ -95,6 +95,7 @@ if __name__ == '__main__':
     car5 = Combustive('audi', 'q5', 2020)
     x.add(car5)
     car6 = Combustive('audi', 'q5', 2020)
+    ################################write
     x.add(car6)
     
     """"
